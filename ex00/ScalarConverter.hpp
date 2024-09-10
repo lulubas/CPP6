@@ -6,7 +6,7 @@
 /*   By: lbastien <lbastien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:10:53 by lbastien          #+#    #+#             */
-/*   Updated: 2024/09/10 17:13:19 by lbastien         ###   ########.fr       */
+/*   Updated: 2024/09/10 20:02:28 by lbastien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,42 @@ class ScalarConverter {
         ScalarConverter& operator=(const ScalarConverter &other);
         ~ScalarConverter();
         
-        enum Type { CHAR, INT, DOUBLE, FLOAT, PSEUDOF, PSEUDOD, INVALID};
+        enum Type { CHAR, INT, DOUBLE, FLOAT, PSEUDO, INVALID};
         
         static bool isPrintable(const std::string& str);
         static bool isCharLiteral(const std::string& str);
-        static bool isPseudoFloatLiteral(const std::string& str);
-        static bool isPseudoDoubleLiteral(const std::string& str);
+        static bool isPseudoLiteral(const std::string& str);
         static bool isIntLiteral(const std::string& str);
         static bool isFloatLiteral(const std::string& str);
         static bool isDoubleLiteral(const std::string& str);
         static Type getType(std::string str);
         
-        // static char toChar(const std::string str, Type inputType);
+        static char toChar(Type inputType, const std::string& str);
+        static int toInt(Type inputType, const std::string& str);
+        static float toFloat(Type inputType, const std::string& str);
+        static double toDouble(Type inputType, const std::string& str);
+
         // static int toInt(const std::string str, Type inputType);
         // static double toDouble(const std::string str, Type inputType);
         // static float toFloat(const std::string str, Type inputType);
-    
-        // static void printResult(const std::string& str, Type inputType);
- 
+
+        class WrongArgument : public std::exception {
+            public:
+                const char* what() const throw();
+        };
+        
+        class nonPrintableChar : public std::exception {
+            public:
+                const char* what() const throw();
+        };
+        
+        class ImpossibleConversion : public std::exception {
+            public:
+                const char* what() const throw();
+        };
+        
     public:
-        static void convert(std::string str);
+        static void convert(std::string& str);
 };
 
 #endif

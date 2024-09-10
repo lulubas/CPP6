@@ -6,7 +6,7 @@
 /*   By: lbastien <lbastien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:11:39 by lbastien          #+#    #+#             */
-/*   Updated: 2024/09/10 17:27:48 by lbastien         ###   ########.fr       */
+/*   Updated: 2024/09/10 20:14:06 by lbastien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,161 @@ ScalarConverter::~ScalarConverter(){
     std::cout << "ScalarConverter destructor called" << std::endl;
 }
 
-void ScalarConverter::convert(std::string str) {    
+void ScalarConverter::convert(std::string& str) {
     Type inputType = getType(str);
-    if (inputType == CHAR)
-        std::cout << "CHAR" << std::endl;
-    if (inputType == INT)
-        std::cout << "INT" << std::endl;
-    if (inputType == FLOAT)
-        std::cout << "FLOAT" << std::endl;
-    if (inputType == PSEUDOF)
-        std::cout << "PSEUDOF" << std::endl;
-    if (inputType == DOUBLE)
-        std::cout << "DOUBLE" << std::endl;
-    if (inputType == PSEUDOD)
-        std::cout << "PSEUDOD" << std::endl;
+    
     if (inputType == INVALID)
-        std::cout << "INVALID" << std::endl;
-          
-    // std::cout << "char: " << toChar(str, inputType) << std::endl;
-    // std::cout << "int: " << toInt(str, inputType) << std::endl;
-    // std::cout << "float: " << ScalarConverter::toFloat(str, inputType) << std::endl;
-    // std::cout << "double: " << ScalarConverter::toDouble(str, inputType) << std::endl;
+        throw WrongArgument();
+    
+    try {
+        char c = toChar(inputType, str);
+        std::cout <<  "char: '" << c << "'" << std::endl;
+    }
+    catch (nonPrintableChar& e) {
+        std::cout <<  "char: non-printable" << std::endl;
+    }
+    catch (std::exception& e) {
+        std::cout <<  "char: impossible" << std::endl;
+    }
+    
+    try{
+        int c = toInt(inputType, str);
+        std::cout <<  "int: '" << c << "'" << std::endl;
+    }
+    catch (std::exception& e) {
+        std::cout <<  "int: impossible" << std::endl;
+    }
+    
+    try{
+        float c = toFloat(inputType, str);
+        std::cout <<  "float: '" << c << "'" << std::endl;
+    }
+    catch (std::exception& e) {
+        std::cout <<  "float: impossible" << std::endl;
+    }
+
+    try{
+        double c = toDouble(inputType, str);
+        std::cout <<  "double: '" << c << "'" << std::endl;
+    }
+    catch (std::exception& e) {
+        std::cout <<  "double: impossible" << std::endl;
+    }
+}
+
+char ScalarConverter::toChar(Type inputType, const std::string& str) {
+    if (inputType == CHAR)
+        return(str[1]);
+    
+    if (inputType == INT || inputType == DOUBLE || inputType == FLOAT) {
+        std::stringstream ss(str);
+        int value;
+        ss >> value;
+        if (isprint(value))
+            return (static_cast<char>(value));
+        if (value >= 0 && value < 32)
+            throw nonPrintableChar();
+    }
+    
+    throw ImpossibleConversion();
+}
+
+int ScalarConverter::toInt(Type inputType, const std::string& str) {
+    if (inputType == CHAR)
+        return(static_cast<int>(str[1]));  
+        
+    if (inputType == INT) {
+        std::stringstream ss(str);
+        int value;
+        ss >> value;
+        return value;
+    }
+    
+    if (inputType == FLOAT || inputType == DOUBLE) {
+        std::string numberPart = str.substr(0, str.size() - 1);
+        std::stringstream ss(numberPart);
+        int value;
+        ss >> value;
+        if (ss.fail() || !ss.eof())
+            throw ImpossibleConversion();
+        return value;
+    }
+    
+    throw ImpossibleConversion();
+}
+
+float ScalarConverter::toFloat(Type inputType, const std::string& str) {
+    if (inputType == CHAR)
+        return(static_cast<float>(str[1]));  
+        
+    if (inputType == INT) {
+        std::stringstream ss(str);
+        int value;
+        ss >> value;
+        return static_cast<float>(value);
+    }
+    
+    if (inputType == FLOAT || inputType == DOUBLE) {
+        std::string numberPart = str;
+        if (inputType == FLOAT)
+            std::string numberPart = str.substr(0, str.size() - 1);
+        std::stringstream ss(numberPart);
+        float value;
+        ss >> value;
+        if (ss.fail() || !ss.eof())
+            throw ImpossibleConversion();
+        return value;
+    }
+    
+    if (inputType == PSEUDO) {
+        if (str == "nan" || str == "nanf")
+            return std::numeric_limits<float>::quiet_NaN();
+        if (str == "+inf" || str == "+inff")
+            return std::numeric_limits<float>::infinity();
+        if (str == "-inf" || str == "-inff")
+            return -std::numeric_limits<float>::infinity();
+    }
+        throw ImpossibleConversion();
+}
+
+double ScalarConverter::toDouble(Type inputType, const std::string& str) {
+    if (inputType == CHAR)
+        return(static_cast<double>(str[1]));
+        
+    if (inputType == INT) {
+        std::stringstream ss(str);
+        int value;
+        ss >> value;
+        return static_cast<double>(value);
+    }
+    
+    if (inputType == FLOAT) {
+        std::string numberPart = str.substr(0, str.size() - 1);
+        std::stringstream ss(numberPart);
+        float value;
+        ss >> value;
+        if (ss.fail() || !ss.eof())
+            throw ImpossibleConversion();
+        return static_cast<double>(value);
+    }
+    
+    if (inputType == DOUBLE) {
+        std::stringstream ss(str);
+        float value;
+        ss >> value;
+        return value;
+    }
+    
+    if (inputType == PSEUDO) {
+        if (str == "nan" || str == "nanf")
+            return std::numeric_limits<double>::quiet_NaN();
+        if (str == "+inf" || str == "+inff")
+            return std::numeric_limits<double>::infinity();
+        if (str == "-inf" || str == "-inff")
+            return -std::numeric_limits<double>::infinity();
+    }
+    
+    throw ImpossibleConversion();
 }
 
 ScalarConverter::Type ScalarConverter::getType(std::string str) {
@@ -63,12 +197,10 @@ ScalarConverter::Type ScalarConverter::getType(std::string str) {
         return INT;
     if (isFloatLiteral(str))
         return FLOAT;
-    if (isPseudoFloatLiteral(str))
-        return PSEUDOF;
-    if (isPseudoDoubleLiteral(str))
-        return PSEUDOD;
     if (isDoubleLiteral(str))
         return DOUBLE;
+    if (isPseudoLiteral(str))
+        return PSEUDO;
     return INVALID;
 }
 
@@ -98,19 +230,17 @@ bool ScalarConverter::isIntLiteral(const std::string& str) {
 }
 
 bool ScalarConverter::isFloatLiteral(const std::string& str) {
-    if (str[str.size() - 1] != 'f')
+    if (str[str.size() - 1] != 'f') {
         return false;
-    std::stringstream ss(str);
+    }
+    std::string numberPart = str.substr(0, str.size() - 1);
+    std::stringstream ss(numberPart);
     float value;
     ss >> value;
     if (ss.fail() || !ss.eof()) {
         return false;
     }
     return true;
-}
-
-bool ScalarConverter::isPseudoFloatLiteral(const std::string& str) {
-    return str == "-inff" || str == "+inff" || str == "nanf";
 }
 
 bool ScalarConverter::isDoubleLiteral(const std::string& str) {
@@ -123,7 +253,18 @@ bool ScalarConverter::isDoubleLiteral(const std::string& str) {
     return true;
 }
 
+bool ScalarConverter::isPseudoLiteral(const std::string& str) {
+    return str == "-inf" || str == "+inf" || str == "nan" || str == "-inff" || str == "+inff" || str == "nanf"; 
+} 
 
-bool ScalarConverter::isPseudoDoubleLiteral(const std::string& str) {
-    return str == "-inf" || str == "+inf" || str == "nan"; 
+const char* ScalarConverter::WrongArgument::what() const throw() {
+    return "Wrong argument. Please use only CPP literals.";
+}
+
+const char* ScalarConverter::nonPrintableChar::what() const throw() {
+    return "Character is non-printable";
+}
+
+const char* ScalarConverter::ImpossibleConversion::what() const throw() {
+    return "Cannot convert to this type.";
 }
