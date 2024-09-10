@@ -6,7 +6,7 @@
 #    By: lbastien <lbastien@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 17:07:24 by lbastien          #+#    #+#              #
-#    Updated: 2024/09/06 14:51:30 by lbastien         ###   ########.fr        #
+#    Updated: 2024/09/10 12:14:54 by lbastien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,10 @@ CXX = c++
 CXXFLAGS = -Wall -Werror -Wextra -std=c++98
 
 # Target executable name
-TARGET = bureaucrats
+TARGET = scalar
 
 # Source, Object, Dependency files
-SRC = main.cpp Bureaucrat.cpp Form.cpp
+SRC = main.cpp ScalarConverter.cpp
 OBJ = $(SRC:.cpp=.o)
 DEP = $(OBJ:.o=.d)
 
