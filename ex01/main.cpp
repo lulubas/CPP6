@@ -7,7 +7,7 @@ int main(void) {
     std::cout << "(content=" << ptr->i << ")" << std::endl;
 
     uintptr_t intPtr = Serializer::serialize(ptr);
-    std::cout << "Serialized (int) pointer address: " << intPtr << std::endl;
+    std::cout << "Serialized (int) address: " << intPtr << std::endl;
 
     ptr = Serializer::deserialize(intPtr);
     std::cout << "Deserialized data pointer address: " << ptr;
