@@ -1,7 +1,7 @@
 #include "ScalarConverter.hpp"
 
 int main () {
-    std::string str = "0";
+    std::string str = "0.1";
     std::cout << "==" << str << "==" << std::endl;
     ScalarConverter::convert(str);
     str = "nan";
@@ -20,10 +20,5 @@ int main () {
     // std::cout << str << " is a ";
     // ScalarConverter::convert(str);
     // str = "45454.8798";
-    // std::cout << str << " is a ";
-    // ScalarConverter::convert(str);
-    // str = "nan";
-    // std::cout << str << " is a ";
-    // ScalarConverter::convert(str);
-    return 0;
+    // std::cout << str 
 }

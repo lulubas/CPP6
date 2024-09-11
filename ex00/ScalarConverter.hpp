@@ -6,7 +6,7 @@
 /*   By: lbastien <lbastien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:10:53 by lbastien          #+#    #+#             */
-/*   Updated: 2024/09/10 20:02:28 by lbastien         ###   ########.fr       */
+/*   Updated: 2024/09/11 11:07:48 by lbastien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,25 @@ class ScalarConverter {
         ~ScalarConverter();
         
         enum Type { CHAR, INT, DOUBLE, FLOAT, PSEUDO, INVALID};
-        
+
+        static std::string printType(Type inputType);
+        static Type getType(std::string str);
         static bool isPrintable(const std::string& str);
+    
         static bool isCharLiteral(const std::string& str);
         static bool isPseudoLiteral(const std::string& str);
         static bool isIntLiteral(const std::string& str);
         static bool isFloatLiteral(const std::string& str);
         static bool isDoubleLiteral(const std::string& str);
-        static Type getType(std::string str);
         
         static char toChar(Type inputType, const std::string& str);
         static int toInt(Type inputType, const std::string& str);
         static float toFloat(Type inputType, const std::string& str);
         static double toDouble(Type inputType, const std::string& str);
+
+        static void printChar(Type inputType, const std::string& str);
+        static void printInt(Type inputType, const std::string& str);
+        static void printFloat(Type inputType, const std::string& str);
 
         // static int toInt(const std::string str, Type inputType);
         // static double toDouble(const std::string str, Type inputType);
