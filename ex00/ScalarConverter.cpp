@@ -6,7 +6,7 @@
 /*   By: lbastien <lbastien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:11:39 by lbastien          #+#    #+#             */
-/*   Updated: 2024/09/11 15:27:03 by lbastien         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:35:11 by lbastien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,5 +245,4 @@ std::string ScalarConverter::printType(Type inputType) {
     if (inputType == PSEUDOD)
         return("PSEUDOD");
     return("UNKNOWN");
-    
 }
