@@ -6,11 +6,10 @@
 /*   By: lbastien <lbastien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:10:53 by lbastien          #+#    #+#             */
-/*   Updated: 2024/09/11 15:32:44 by lbastien         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:11:35 by lbastien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// ScalarConverter.hpp
 #ifndef SCALARCONVERTER_HPP
 #define SCALARCONVERTER_HPP
 

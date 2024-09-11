@@ -1,37 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Serializer.hpp                                     :+:      :+:    :+:   */
+/*   Base.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbastien <lbastien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/11 15:36:31 by lbastien          #+#    #+#             */
-/*   Updated: 2024/09/11 17:12:09 by lbastien         ###   ########.fr       */
+/*   Created: 2024/09/11 17:08:56 by lbastien          #+#    #+#             */
+/*   Updated: 2024/09/11 17:48:09 by lbastien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERIALIZER_HPP
-#define SERIALIZER_HPP
+#ifndef BASE_HPP
+#define BASE_HPP
 
-#include<string>
-#include<iostream>
-
-typedef long unsigned int uintptr_t;
-
-struct Data {
-    int i;
-};
-
-class Serializer {
+class Base {
     private:
-        Serializer();
-        Serializer(const Serializer &other);
-        Serializer& operator=(const Serializer &other);
-        ~Serializer();
-        
     public:
-        static uintptr_t    serialize(Data* ptr);
-        static Data*        deserialize(uintptr_t raw);
+        virtual ~Base() {};
 };
 
 #endif
