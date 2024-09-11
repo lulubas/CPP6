@@ -6,16 +6,16 @@
 #    By: lbastien <lbastien@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/27 17:07:24 by lbastien          #+#    #+#              #
-#    Updated: 2024/09/10 12:14:54 by lbastien         ###   ########.fr        #
+#    Updated: 2024/09/11 15:31:44 by lbastien         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler settings
 CXX = c++
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -fsanitize=address
 
 # Target executable name
-TARGET = scalar
+TARGET = convert
 
 # Source, Object, Dependency files
 SRC = main.cpp ScalarConverter.cpp
@@ -27,7 +27,7 @@ all: $(TARGET)
 
 # Run target ignoring exit status
 run: all
-	-@./$(TARGET)
+	-@./$(TARGET) 42
 
 # Compile .cpp files into .o object files
 %.o : %.cpp
